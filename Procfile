@@ -1,1 +1,1 @@
-web: ./slipok.exe
+web: ./release.sh
