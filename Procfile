@@ -1,1 +1,1 @@
-web: ./callslipok.go
+web: ./slipok
