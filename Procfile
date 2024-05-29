@@ -1,1 +1,1 @@
-worker: ./slipok.exe
+worker: ./release.sh
