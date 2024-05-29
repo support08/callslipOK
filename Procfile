@@ -1,1 +1,1 @@
-web: ./slipok.exe
+worker: ./slipok.exe
