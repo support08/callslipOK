@@ -1,1 +1,1 @@
-web: ./slipok
+web: ./release.ps1 && ./slipok.exe

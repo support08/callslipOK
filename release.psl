@@ -1,0 +1,2 @@
+# release.ps1
+Set-ItemProperty -Path .\slipok.exe -Name IsReadOnly -Value $false
