@@ -28,12 +28,12 @@ func main() {
 
 	// Middleware to check for Authorization header
 	authMiddleware := func(c *fiber.Ctx) error {
-		authHeader := c.Get("Authorization")
+		authHeader := c.Get("x-authorization")
 		if authHeader == "" {
 			return c.Status(fiber.StatusUnauthorized).SendString("Missing Authorization header")
 		}
 
-		if authHeader != "Bearer "+secretKey {
+		if authHeader != secretKey {
 			return c.Status(fiber.StatusUnauthorized).SendString("Invalid or missing API key")
 		}
 
