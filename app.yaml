@@ -12,9 +12,17 @@ handlers:
   - url: /.*
     script: auto
 
-health_check:
-  enable_health_check: true
+liveness_check:
+  path: "/"
   check_interval_sec: 30
   timeout_sec: 4
-  unhealthy_threshold: 2
-  healthy_threshold: 2
+  failure_threshold: 2
+  success_threshold: 2
+
+readiness_check:
+  path: "/"
+  check_interval_sec: 30
+  timeout_sec: 4
+  failure_threshold: 2
+  success_threshold: 2
+  app_start_timeout_sec: 600  # Increase the timeout to 600 seconds (10 minutes)
