@@ -23,7 +23,7 @@ func main() {
 	// Hardcode your values directly in the code
 	branchID := "22345"
 	apiKey := "SLIPOK6H4K8YP"
-	fileLocation := "C:/Support08 Work/NOTE CODE/sql tech/export/154210.jpg"
+	// fileLocation := "C:/Support08 Work/NOTE Cgcloud app deployODE/sql tech/export/154210.jpg"
 	app := fiber.New()
 
 	// Middleware to check for Authorization header
@@ -40,10 +40,22 @@ func main() {
 		return c.Next()
 	}
 	app.Post("/call-api", authMiddleware, func(c *fiber.Ctx) error {
+		var requestBody struct {
+			FilePath string `json:"file_path"`
+		}
+
+		if err := c.BodyParser(&requestBody); err != nil {
+			return c.Status(fiber.StatusBadRequest).SendString("Invalid request body")
+		}
+
+		// Ensure the FilePath field is not empty
+		if requestBody.FilePath == "" {
+			return c.Status(fiber.StatusBadRequest).SendString("Empty file path")
+		}
 		client := resty.New()
 		resp, err := client.R().
 			SetHeader("x-authorization", apiKey).
-			SetFile("files", fileLocation).
+			SetFile("files", requestBody.FilePath).
 			SetFormData(map[string]string{
 				"log": "true",
 			}).
