@@ -2,20 +2,44 @@ package main
 
 import (
 	"log"
+	"os"
 
 	"github.com/go-resty/resty/v2"
 	"github.com/gofiber/fiber/v2"
+	"github.com/joho/godotenv"
 )
 
 func main() {
+	err := godotenv.Load("config.env")
+	if err != nil {
+		log.Fatalf("Error loading .env file: %v", err)
+	}
+
+	// Retrieve secret key from environment variable
+	secretKey := os.Getenv("SECRET_KEY")
+	if secretKey == "" {
+		log.Fatalf("SECRET_KEY not set in environment variables")
+	}
 	// Hardcode your values directly in the code
 	branchID := "22345"
 	apiKey := "SLIPOK6H4K8YP"
 	fileLocation := "C:/Support08 Work/NOTE CODE/sql tech/export/154210.jpg"
-
 	app := fiber.New()
 
-	app.Post("/call-api", func(c *fiber.Ctx) error {
+	// Middleware to check for Authorization header
+	authMiddleware := func(c *fiber.Ctx) error {
+		authHeader := c.Get("Authorization")
+		if authHeader == "" {
+			return c.Status(fiber.StatusUnauthorized).SendString("Missing Authorization header")
+		}
+
+		if authHeader != "Bearer "+secretKey {
+			return c.Status(fiber.StatusUnauthorized).SendString("Invalid or missing API key")
+		}
+
+		return c.Next()
+	}
+	app.Post("/call-api", authMiddleware, func(c *fiber.Ctx) error {
 		client := resty.New()
 		resp, err := client.R().
 			SetHeader("x-authorization", apiKey).
