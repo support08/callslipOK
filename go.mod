@@ -1,4 +1,4 @@
-module my-app
+module hometechslipok
 
 go 1.22.3
 
