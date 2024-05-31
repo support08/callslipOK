@@ -14,19 +14,13 @@ func main() {
 	if err != nil {
 		log.Fatalf("Error loading .env file: %v", err)
 	}
-
-	// Retrieve secret key from environment variable
 	secretKey := os.Getenv("SECRET_KEY")
 	if secretKey == "" {
 		log.Fatalf("SECRET_KEY not set in environment variables")
 	}
-	// Hardcode your values directly in the code
 	branchID := "22345"
 	apiKey := "SLIPOK6H4K8YP"
-	// fileLocation := "C:/Support08 Work/NOTE Cgcloud app deployODE/sql tech/export/154210.jpg"
 	app := fiber.New()
-
-	// Middleware to check for Authorization header
 	authMiddleware := func(c *fiber.Ctx) error {
 		authHeader := c.Get("x-authorization")
 		if authHeader == "" {
@@ -48,7 +42,6 @@ func main() {
 			return c.Status(fiber.StatusBadRequest).SendString("Invalid request body")
 		}
 
-		// Ensure the FilePath field is not empty
 		if requestBody.FilePath == "" {
 			return c.Status(fiber.StatusBadRequest).SendString("Empty file path")
 		}
