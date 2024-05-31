@@ -8,21 +8,10 @@ automatic_scaling:
   cpu_utilization:
     target_utilization: 0.65
 
-handlers:
-  - url: /.*
-    script: auto
-
 liveness_check:
   path: "/"
   check_interval_sec: 30
   timeout_sec: 4
   failure_threshold: 2
   success_threshold: 2
-
-readiness_check:
-  path: "/"
-  check_interval_sec: 60
-  timeout_sec: 4
-  failure_threshold: 2
-  success_threshold: 2
-  app_start_timeout_sec: 1900  # Increase the timeout to 900 seconds (15 minutes)
+ 
