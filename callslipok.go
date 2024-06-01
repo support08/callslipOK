@@ -9,7 +9,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func main() {
+func callslipok() {
 	err := godotenv.Load("config.env")
 	if err != nil {
 		log.Fatalf("Error loading .env file: %v", err)
@@ -59,12 +59,12 @@ func main() {
 			return c.Status(fiber.StatusInternalServerError).SendString("Error calling API")
 		}
 
-		return c.Status(resp.StatusCode()).Send(resp.Body())
+		return c.Status(fiber.StatusOK).Send(resp.Body())
 	})
 
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8080"
+		port = "8000"
 	}
 
 	log.Fatal(app.Listen(":" + port))
